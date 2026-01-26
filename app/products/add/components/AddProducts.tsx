@@ -1,4 +1,5 @@
 "use client";
+import { useRouter } from "next/navigation";
 import React, { useState, FormEvent } from "react";
 
 interface ApiResponse {
@@ -12,6 +13,7 @@ interface ApiResponse {
 }
 
 export default function AddProducts() {
+  const router = useRouter()
   const [name, setName] = useState<string>("");
   const [price, setPrice] = useState<string>("");
   const [message, setMessage] = useState<string>("");
@@ -40,7 +42,7 @@ export default function AddProducts() {
         setMessage(result.message || "Product added successfully!");
         setName("");
         setPrice("");
-        window.location.href = "/";
+        router.push('/')
       } else {
         setMessage(result.error || "Failed to add product");
       }

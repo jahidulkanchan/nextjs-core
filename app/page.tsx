@@ -14,7 +14,7 @@ export default async function Home() {
               <Link href="/">Home</Link>
             </li>
             <li className="hover:text-stone-500 transition-colors">
-              <Link href="/products">Products</Link>
+              <Link href="/collections">Products</Link>
             </li>
              <li className="hover:text-stone-500 transition-colors">
               <Link href="/products/add">Add Products</Link>
