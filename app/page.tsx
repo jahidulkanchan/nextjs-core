@@ -1,6 +1,8 @@
 import Link from "next/link";
+import connectDB from "./lib/db";
 
-export default function Home() {
+export default async function Home() {
+  await connectDB();
   return (
     <main className="min-h-screen bg-stone-50 text-stone-900">
       {/* Navigation */}
