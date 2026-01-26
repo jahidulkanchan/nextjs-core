@@ -26,7 +26,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${poppins.variable} ${inter.variable} antialiased`}>
+      <body
+        data-new-gr-c-s-check-loaded="14.1270.0"
+        data-gr-ext-installed=""
+        cz-shortcut-listen="true"
+        className={`${poppins.variable} ${inter.variable} antialiased`}
+      >
         {children}
       </body>
     </html>
