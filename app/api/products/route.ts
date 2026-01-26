@@ -1,4 +1,3 @@
-
 import connectDB from "@/app/lib/db";
 import { NextRequest, NextResponse } from "next/server";
 import Product, { IProduct } from "./models/Product";
@@ -13,7 +12,7 @@ export async function POST(request: NextRequest) {
     if (!body.name || !body.price) {
       return NextResponse.json(
         { error: "Missing name or price" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -32,6 +31,29 @@ export async function POST(request: NextRequest) {
     });
   } catch (err) {
     console.error(err);
-    return NextResponse.json({ error: "Failed to save product" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to save product" },
+      { status: 500 },
+    );
   }
 }
+
+export async function GET() {
+  await connectDB();
+
+  try {
+    const products = await Product.find();
+
+    return NextResponse.json({
+      message: "Products fetched successfully",
+      products,
+    });
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json(
+      { error: "Failed to fetch products" },
+      { status: 500 }
+    );
+  }
+}
+

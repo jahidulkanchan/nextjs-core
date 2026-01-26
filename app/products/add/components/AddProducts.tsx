@@ -1,5 +1,4 @@
 "use client";
-
 import React, { useState, FormEvent } from "react";
 
 interface ApiResponse {
@@ -41,16 +40,17 @@ export default function AddProducts() {
         setMessage(result.message || "Product added successfully!");
         setName("");
         setPrice("");
+        window.location.href = "/";
       } else {
         setMessage(result.error || "Failed to add product");
       }
     } catch (err: unknown) {
-    if (err instanceof Error) {
-      setMessage("Error: " + err.message);
-    } else {
-      setMessage("An unexpected error occurred");
+      if (err instanceof Error) {
+        setMessage("Error: " + err.message);
+      } else {
+        setMessage("An unexpected error occurred");
+      }
     }
-  }
   };
 
   return (
