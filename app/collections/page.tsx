@@ -3,7 +3,7 @@ import { IProduct } from "../api/products/models/Product";
 
 export default async function page() {
   const data = await fetch(`${process.env.BASE_URL}/products`, {
-    cache: "no-store",
+    cache: "force-cache",
   });
   const { products } = await data.json();
   console.log(products);
