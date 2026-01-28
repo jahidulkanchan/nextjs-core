@@ -5,24 +5,6 @@ export default async function Home() {
   await connectDB();
   return (
     <main className="min-h-screen bg-stone-50 text-stone-900">
-      {/* Navigation */}
-      <nav className="border-b border-stone-200 bg-white/80 backdrop-blur-md sticky top-0 z-50">
-        <div className="container mx-auto px-6 h-16 flex items-center justify-between">
-          <div className="text-xl font-bold tracking-tighter">BRAND.</div>
-          <ul className="flex gap-8 text-sm font-medium">
-            <li className="hover:text-stone-500 transition-colors cursor-pointer">
-              <Link href="/">Home</Link>
-            </li>
-            <li className="hover:text-stone-500 transition-colors">
-              <Link href="/collections">Products</Link>
-            </li>
-             <li className="hover:text-stone-500 transition-colors">
-              <Link href="/products/add">Add Products</Link>
-            </li>
-          </ul>
-        </div>
-      </nav>
-
       {/* Hero Section */}
       <section className="container mx-auto px-6 py-24 md:py-32">
         <div className="max-w-3xl mx-auto text-center">
