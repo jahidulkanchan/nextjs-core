@@ -1,14 +1,16 @@
 import Image from "next/image";
 import Link from "next/link"; // 1. Import Link
 import { IProduct } from "../api/products/models/Product";
+import { getAllProducts } from "../actions/products/getAllProducts";
 
 
 
 export default async function Page() {
-  const data = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/products`, {
-    cache: "force-cache",
-  });
-  const { products } = await data.json();
+  // const data = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/products`, {
+  //   cache: "force-cache",
+  // });
+  // const { products } = await data.json();
+  const products = await getAllProducts()
 
   return (
     <main className="bg-white text-stone-900 min-h-screen">
