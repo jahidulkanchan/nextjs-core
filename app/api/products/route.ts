@@ -24,7 +24,7 @@ export async function POST(request: NextRequest) {
 
     await newProduct.save();
 
-    revalidatePath('/collections')
+    revalidatePath("/collections");
 
     return NextResponse.json({
       message: "Product saved successfully",
@@ -53,8 +53,7 @@ export async function GET() {
     console.error(error);
     return NextResponse.json(
       { error: "Failed to fetch products" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
-
