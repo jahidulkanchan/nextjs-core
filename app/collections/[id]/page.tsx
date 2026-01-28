@@ -13,11 +13,11 @@ const MOCK_PRODUCT = {
   imageUrl: "https://images.unsplash.com/photo-1583394838336-acd977736f90?q=80&w=684&auto=format&fit=crop"
 };
 
-interface PageProps {
-  params: { id: string };
-}
+// interface PageProps {
+//   params: { id: string };
+// }
 
-export default function ProductDetails({ params }: PageProps) {
+export default function ProductDetails() {
   // 2. Using static data instead of fetch for now
   const product = MOCK_PRODUCT;
 

@@ -3,6 +3,7 @@ import Link from "next/link"; // 1. Import Link
 import { IProduct } from "../api/products/models/Product";
 
 export default async function Page() {
+    console.log("COLLECTION PAGE FETCHED");
   const data = await fetch(`${process.env.BASE_URL}/products`, {
     cache: "force-cache",
   });
