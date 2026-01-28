@@ -2,8 +2,10 @@ import Image from "next/image";
 import Link from "next/link"; // 1. Import Link
 import { IProduct } from "../api/products/models/Product";
 
+
+
 export default async function Page() {
-  const data = await fetch(`${process.env.API_URL}/products`, {
+  const data = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/products`, {
     cache: "force-cache",
   });
   const { products } = await data.json();
