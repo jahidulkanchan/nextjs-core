@@ -1,57 +1,102 @@
 import React from "react";
 import Image from "next/image";
-import { IoArrowBack } from "react-icons/io5";
+import { HiOutlineArrowLeft } from "react-icons/hi";
 import Link from "next/link";
 
-export default function Page() {
+// 1. Static Mock Data
+const MOCK_PRODUCT = {
+  _id: "65b2f1a2e4b0a123456789ab",
+  name: "Signature Minimalist Watch",
+  price: 249.00,
+  category: "Lifestyle",
+  description: "Experience the perfect blend of craftsmanship and modern design. This piece from our latest collection is designed for those who appreciate the finer details and long-lasting quality. Crafted with premium materials and a focus on essential form.",
+  imageUrl: "https://images.unsplash.com/photo-1583394838336-acd977736f90?q=80&w=684&auto=format&fit=crop"
+};
+
+// interface PageProps {
+//   params: { id: string };
+// }
+
+export default function ProductDetails() {
+  // 2. Using static data instead of fetch for now
+  const product = MOCK_PRODUCT;
+
   return (
-    <section className="min-h-screen bg-white text-black">
-      <div className="container mx-auto px-5 py-16">
-        {/* Go Back */}
-        <Link
-          href="/products"
-          className="inline-flex items-center gap-2 text-sm mb-8 hover:underline"
-        >
-          <IoArrowBack size={18} />
-          Go Back
-        </Link>
+    <main className="bg-white text-stone-900 min-h-screen">
+      <section className="py-12 md:py-20">
+        <div className="container mx-auto px-6">
+          
+          {/* Back Button */}
+          <Link
+            href="/products"
+            className="inline-flex items-center gap-2 text-sm font-medium text-stone-500 hover:text-stone-900 transition-colors mb-8 group"
+          >
+            <HiOutlineArrowLeft className="transition-transform group-hover:-translate-x-1" /> 
+            Back to Collection
+          </Link>
 
-        {/* Product Layout */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-          {/* Image */}
-          <div className="aspect-square bg-gray-100 rounded-xl overflow-hidden relative">
-            <Image
-              src="/window.svg"
-              alt="Product name"
-              fill
-              className="object-cover"
-            />
-          </div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 xl:gap-24">
+            
+            {/* Left: Image Gallery */}
+            <div className="relative aspect-[4/5] w-full bg-stone-100 rounded-2xl overflow-hidden shadow-sm">
+              <Image
+                src={product.imageUrl}
+                alt={product.name}
+                fill
+                className="object-cover"
+                priority
+              />
+            </div>
 
-          {/* Details */}
-          <div className="space-y-6">
-            <h1 className="text-2xl font-semibold">Product Name</h1>
+            {/* Right: Product Details */}
+            <div className="flex flex-col justify-center">
+              <div className="border-b border-stone-100 pb-8 mb-8">
+                <h3 className="text-sm font-semibold uppercase tracking-[0.2em] text-stone-400 mb-4">
+                  Premium {product.category}
+                </h3>
+                <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-4 text-stone-900">
+                  {product.name}
+                </h1>
+                <p className="text-2xl font-light text-stone-600">
+                  ${product.price.toLocaleString()}
+                </p>
+              </div>
 
-            <p className="text-xl font-medium">$49.99</p>
+              <div className="space-y-6">
+                <div>
+                  <h4 className="text-sm font-bold uppercase mb-2 text-stone-900">Description</h4>
+                  <p className="text-stone-500 leading-relaxed max-w-md">
+                    {product.description}
+                  </p>
+                </div>
 
-            <p className="text-sm text-gray-600 leading-relaxed">
-              This is the product description. Clean, minimal, and easy to read.
-              Keep it short and informative just like your cards.
-            </p>
+                {/* Action Buttons */}
+                <div className="flex flex-col gap-4 pt-8 max-w-sm">
+                  <button className="w-full bg-stone-900 text-white py-4 rounded-full font-medium hover:bg-stone-800 transition-all active:scale-[0.98] shadow-lg shadow-stone-200">
+                    Add to Cart
+                  </button>
+                  <button className="w-full border border-stone-200 text-stone-900 py-4 rounded-full font-medium hover:bg-stone-50 transition-all">
+                    Add to Wishlist
+                  </button>
+                </div>
 
-            {/* Actions */}
-            <div className="flex gap-4 pt-4">
-              <button className="bg-black text-white px-6 py-3 rounded hover:bg-gray-800 transition">
-                Add to Cart
-              </button>
-
-              <button className="border border-black px-6 py-3 rounded hover:bg-black hover:text-white transition">
-                Buy Now
-              </button>
+                {/* Metadata */}
+                <div className="pt-12 border-t border-stone-100 grid grid-cols-2 gap-4 text-[10px] uppercase tracking-[0.15em] text-stone-400">
+                  <div>
+                    <span className="block font-bold text-stone-600">SKU</span>
+                    #PRD-{product._id.toString().slice(-6)}
+                  </div>
+                  <div>
+                    <span className="block font-bold text-stone-600">Availability</span>
+                    In Stock
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
+
         </div>
-      </div>
-    </section>
+      </section>
+    </main>
   );
 }
