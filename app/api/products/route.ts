@@ -1,7 +1,7 @@
 import connectDB from "@/app/lib/db";
 import { NextRequest, NextResponse } from "next/server";
 import Product, { IProduct } from "./models/Product";
-import { revalidatePath } from "next/cache";
+import { revalidateTag } from "next/cache";
 
 export async function POST(request: NextRequest) {
   await connectDB();
@@ -24,7 +24,8 @@ export async function POST(request: NextRequest) {
 
     await newProduct.save();
 
-    revalidatePath("/collections");
+    const { revalidateTag } = await import("next/cache");
+    revalidateTag("products", "max");
 
     return NextResponse.json({
       message: "Product saved successfully",
