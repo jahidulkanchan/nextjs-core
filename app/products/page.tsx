@@ -5,14 +5,10 @@ import { getAllProducts } from "../actions/products/getAllProducts";
 // import { getAllProducts } from "../actions/products/getAllProducts";
 
 
-export const revalidate = 60;
+export const revalidate = 3600;
 
 export default async function Page() {
   const products = await getAllProducts()
-
-  if(!products){
-    return <h1>Loading.....</h1>
-  }
 
   return (
     <main className="bg-white text-stone-900 min-h-screen">
@@ -23,9 +19,9 @@ export default async function Page() {
             <p className="text-stone-500">Explore our curated selection of premium goods.</p>
           </header>
 
-          {products.length > 0 ? (
+          {products?.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-              {products.map((product: IProduct, index: number) => (
+              {products?.map((product: IProduct, index: number) => (
                 /* 2. Wrap the card in a Link pointing to /products/[id] */
                 <Link 
                   key={product._id.toString() || index} 
