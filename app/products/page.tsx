@@ -5,13 +5,9 @@ import { getAllProducts } from "../actions/products/getAllProducts";
 // import { getAllProducts } from "../actions/products/getAllProducts";
 
 
+export const revalidate = 3600;
 
 export default async function Page() {
-  // const data = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/products`, {
-  //   cache: "force-cache"
-  //  }, 
-  // });
-  // const { products } = await data.json();
   const products = await getAllProducts()
 
   if(!products){

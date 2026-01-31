@@ -27,7 +27,7 @@ export default function AddProducts() {
       return;
     }
 
-    const data = { name, price: Number(price) }; // ensure price is a number
+    const data = { name, price: Number(price) }; 
 
     try {
       const res = await fetch("/api/products", {
@@ -42,6 +42,14 @@ export default function AddProducts() {
         setMessage(result.message || "Product added successfully!");
         setName("");
         setPrice("");
+
+        await fetch("/api/revalidate", {
+         method: "POST",
+         headers: { "Content-Type": "application/json" },
+         body: JSON.stringify({ path: "/products" }), 
+        });
+
+
         router.push('/')
       } else {
         setMessage(result.error || "Failed to add product");
