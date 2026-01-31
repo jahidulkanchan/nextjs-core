@@ -5,7 +5,7 @@ import { getAllProducts } from "../actions/products/getAllProducts";
 // import { getAllProducts } from "../actions/products/getAllProducts";
 
 
-export const revalidate = 3600;
+export const revalidate = 60;
 
 export default async function Page() {
   const products = await getAllProducts()
