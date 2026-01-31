@@ -13,12 +13,18 @@ const MOCK_PRODUCT = {
   imageUrl: "https://images.unsplash.com/photo-1583394838336-acd977736f90?q=80&w=684&auto=format&fit=crop"
 };
 
-// interface PageProps {
-//   params: { id: string };
-// }
 
-export default function ProductDetails() {
-  // 2. Using static data instead of fetch for now
+export default async function ProductDetails({
+  params,
+}: {
+  params: Promise<{ id: string }>
+}) {
+  
+  const {id} =  await params
+  const data = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/products/${id}`)
+  const {singleProduct} = await data.json()
+  const {name, price} = singleProduct
+
   const product = MOCK_PRODUCT;
 
   return (
@@ -55,10 +61,10 @@ export default function ProductDetails() {
                   Premium {product.category}
                 </h3>
                 <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-4 text-stone-900">
-                  {product.name}
+                  {name}
                 </h1>
                 <p className="text-2xl font-light text-stone-600">
-                  ${product.price.toLocaleString()}
+                  ${price.toLocaleString()}
                 </p>
               </div>
 

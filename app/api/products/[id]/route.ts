@@ -2,6 +2,25 @@ import connectDB from "@/app/lib/db";
 import { NextRequest, NextResponse } from "next/server";
 import Product from "../models/Product";
 
+
+
+export async function GET(
+  request: NextRequest,
+  context: { params: Promise<{ id: string }> },
+) {
+  await connectDB();
+  const { id } = await context.params;
+
+  const singleProduct = await Product.findById(id);
+
+  return NextResponse.json({
+    message: "ID received successfully",
+    status: 200,
+    singleProduct,
+  });
+}
+
+
 export async function DELETE(
   request: NextRequest,
   context: { params: Promise<{ id: string }> },
@@ -33,18 +52,5 @@ export async function DELETE(
   }
 }
 
-export async function GET(
-  request: NextRequest,
-  context: { params: Promise<{ id: string }> },
-) {
-  await connectDB();
-  const { id } = await context.params;
 
-  const singleProduct = await Product.findById(id);
 
-  return NextResponse.json({
-    message: "ID received successfully",
-    status: 200,
-    singleProduct,
-  });
-}
