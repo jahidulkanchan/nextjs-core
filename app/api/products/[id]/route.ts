@@ -2,8 +2,6 @@ import connectDB from "@/app/lib/db";
 import { NextRequest, NextResponse } from "next/server";
 import Product from "../models/Product";
 
-
-
 export async function GET(
   request: NextRequest,
   context: { params: Promise<{ id: string }> },
@@ -19,7 +17,6 @@ export async function GET(
     singleProduct,
   });
 }
-
 
 export async function DELETE(
   request: NextRequest,
@@ -44,7 +41,6 @@ export async function DELETE(
       product: deletedProduct,
     });
   } catch (error) {
-    console.error(error);
     return NextResponse.json(
       { error: "Failed to delete product" },
       { status: 500 },
@@ -52,5 +48,16 @@ export async function DELETE(
   }
 }
 
-
-
+export async function PATCH(
+  request: NextRequest,
+  context: { params: Promise<{ id: string }> },
+) {
+  try {
+    const id = context.params;
+    return NextResponse.json({ message: "Patch hit", singleId: id });
+  } catch (error) {
+    return NextResponse.json({
+      error,
+    });
+  }
+}

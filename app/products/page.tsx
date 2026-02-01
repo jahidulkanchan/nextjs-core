@@ -3,11 +3,12 @@ import Link from "next/link";
 import { IProduct } from "../api/products/models/Product";
 import { getAllProducts } from "../actions/products/getAllProducts";
 import HandleDelete from "./components/HandleDelete";
+import { FaRegEdit } from "react-icons/fa";
+import HandleUpdate from "./components/HandleUpdate";
 
 export const revalidate = 0;
 
 export default async function Page() {
-
   const products = await getAllProducts();
 
   return (
@@ -26,8 +27,6 @@ export default async function Page() {
           {products?.length > 0 ? (
             <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
               {products?.map((product: IProduct, index: number) => (
-                /* 2. Wrap the card in a Link pointing to /products/[id] */
-
                 <div
                   key={product._id.toString() || index}
                   className="group flex flex-col"
@@ -59,7 +58,11 @@ export default async function Page() {
                       <p className="mt-1 font-bold text-stone-900">
                         ${product.price.toLocaleString()}
                       </p>
-                      <HandleDelete id={product._id.toString() }/>
+                      <div className="flex gap-4">
+                        <HandleUpdate id={product._id.toString()} />
+
+                        <HandleDelete id={product._id.toString()} />
+                      </div>
                     </div>
                   </div>
                 </div>
