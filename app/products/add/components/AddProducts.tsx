@@ -46,9 +46,7 @@ export default function AddProducts() {
         setMessage(result.message || "Product added successfully!");
         setName("");
         setPrice("");
-
         await revalidatePathClient("/products");
-
         router.push("/products");
       } else {
         setMessage(result.error || "Failed to add product");
