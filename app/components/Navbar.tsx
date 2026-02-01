@@ -37,7 +37,7 @@ const Navbar = () => {
           <div className="md:hidden flex items-center">
             <button
               onClick={toggleMenu}
-              className="text-stone-800 focus:outline-none z-[60]"
+              className="text-black focus:outline-none z-[60]"
               aria-label="Toggle menu"
             >
               {/* Keep the icon button functional */}
@@ -57,29 +57,33 @@ const Navbar = () => {
         onClick={toggleMenu}
       />
 
-      {/* Sidebar Drawer */}
-      <aside
-        className={`fixed top-0 left-0 h-full w-[280px] bg-white z-[58] shadow-2xl transform transition-transform duration-300 ease-in-out md:hidden ${
-          isOpen ? "translate-x-0" : "-translate-x-full"
-        }`}
-      >
-        <div className="p-6">
-          <div className="mb-8 font-bold text-xl tracking-tighter">BRAND.</div>
-          <ul className="flex flex-col space-y-6 text-base font-medium">
-            {navLinks.map((link) => (
-              <li key={link.name}>
-                <Link
-                  href={link.href}
-                  onClick={() => setIsOpen(false)}
-                  className="block hover:text-stone-500 transition-colors border-b border-stone-100 pb-2"
-                >
-                  {link.name}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </aside>
+     {/* Sidebar Drawer */}
+<aside
+  className={`fixed top-0 left-0 h-full w-[280px] bg-white text-black z-[58] shadow-2xl transform transition-transform duration-300 ease-in-out md:hidden ${
+    isOpen ? "translate-x-0" : "-translate-x-full"
+  }`}
+>
+  <div className="p-6">
+    {/* Sidebar Logo/Header */}
+    <div className="mb-10 font-bold text-2xl tracking-tighter">
+      BRAND.
+    </div>
+
+    <ul className="flex flex-col space-y-8 text-lg font-bold">
+      {navLinks.map((link) => (
+        <li key={link.name}>
+          <Link
+            href={link.href}
+            onClick={() => setIsOpen(false)}
+            className="block border-b pb-2 uppercase tracking-tight"
+          >
+            {link.name}
+          </Link>
+        </li>
+      ))}
+    </ul>
+  </div>
+</aside>
     </>
   );
 };
