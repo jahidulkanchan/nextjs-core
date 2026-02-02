@@ -13,9 +13,8 @@ export default async function Page({
 }: {
   searchParams: Promise<{ search: string }>;
 }) {
-  const products = await getAllProducts();
   const { search = ""} = await searchParams;
-  const filterProducts = products.filter((product: IProduct)=> product.name.toLowerCase().includes(search.toLowerCase()))
+  const products = await getAllProducts(search);
   return (
     <main className="min-h-screen bg-white text-stone-900">
       <section className="py-12 md:py-20">
@@ -32,9 +31,9 @@ export default async function Page({
             <SearchBar />
           </header>
 
-          {filterProducts?.length > 0 ? (
+          {products?.length > 0 ? (
             <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-              {filterProducts?.map((product: IProduct, index: number) => (
+              {products?.map((product: IProduct, index: number) => (
                 <div
                   key={product._id.toString() || index}
                   className="group flex flex-col"

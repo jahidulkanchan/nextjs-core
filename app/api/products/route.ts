@@ -36,21 +36,26 @@ export async function POST(request: NextRequest) {
   }
 }
 
-export async function GET() {
+export async function GET(req: Request) {
   await connectDB();
 
+  const { searchParams } = new URL(req.url);
+  const search = searchParams.get("search") || "";
+
   try {
-    const products = await Product.find().sort({_id: -1});
+    const products = await Product.find({
+      name: { $regex: search, $options: "i" },
+    }).sort({ _id: -1 });
 
     return NextResponse.json({
       message: "Products fetched successfully",
       products,
     });
   } catch (error) {
-    console.error(error);
     return NextResponse.json(
       { error: "Failed to fetch products" },
-      { status: 500 },
+      { status: 500 }
     );
   }
 }
+
