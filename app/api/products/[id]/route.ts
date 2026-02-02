@@ -50,14 +50,37 @@ export async function DELETE(
 
 export async function PATCH(
   request: NextRequest,
-  context: { params: Promise<{ id: string }> },
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
-    const id = context.params;
-    return NextResponse.json({ message: "Patch hit", singleId: id });
-  } catch (error) {
+    await connectDB(); // ensure mongoose connected
+    const { id } = await context.params; // dynamic id
+    const body = await request.json();   // body = { name, price }
+
+    // ✅ Update product (partial or full)
+    const updatedProduct = await Product.findByIdAndUpdate(
+      id,
+      { $set: body },  // $set ensures only fields sent are updated
+      { new: true }    // return updated document
+    );
+
+    if (!updatedProduct) {
+      return NextResponse.json(
+        { error: "Product not found" },
+        { status: 404 }
+      );
+    }
+
     return NextResponse.json({
-      error,
+      message: "PATCH successful",
+      updatedProduct,
     });
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json(
+      { error: "Update failed", details: String(error) },
+      { status: 500 }
+    );
   }
 }
+
