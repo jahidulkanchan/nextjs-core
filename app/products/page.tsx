@@ -43,7 +43,7 @@ export default async function Page() {
                   </div>
 
                   <div className="flex flex-col gap-1">
-                    <h3 className="text-sm font-semibold tracking-wider text-stone-400 uppercase">
+                    <h3 className="text-sm text-black/80 uppercase text-shadow-2xs">
                       Category
                     </h3>
                     <Link

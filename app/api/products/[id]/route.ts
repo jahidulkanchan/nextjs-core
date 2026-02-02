@@ -6,7 +6,9 @@ export async function GET(
   request: NextRequest,
   context: { params: Promise<{ id: string }> },
 ) {
-  await connectDB();
+
+  try{
+ await connectDB();
   const { id } = await context.params;
 
   const singleProduct = await Product.findById(id);
@@ -16,15 +18,22 @@ export async function GET(
     status: 200,
     singleProduct,
   });
+  }
+  catch(error){
+  return NextResponse.json(
+      { error: "Failed to fetch product", details: String(error) },
+      { status: 500 },
+  );
+  }
+ 
 }
 
 export async function DELETE(
   request: NextRequest,
   context: { params: Promise<{ id: string }> },
 ) {
-  await connectDB();
-
   try {
+    await connectDB();
     const { id } = await context.params;
 
     const deletedProduct = await Product.findByIdAndDelete(id);
@@ -42,7 +51,7 @@ export async function DELETE(
     });
   } catch (error) {
     return NextResponse.json(
-      { error: "Failed to delete product" },
+      { error: "Failed to delete product", details: String(error) },
       { status: 500 },
     );
   }
@@ -50,25 +59,22 @@ export async function DELETE(
 
 export async function PATCH(
   request: NextRequest,
-  context: { params: Promise<{ id: string }> }
+  context: { params: Promise<{ id: string }> },
 ) {
   try {
-    await connectDB(); // ensure mongoose connected
+    await connectDB();
     const { id } = await context.params; // dynamic id
-    const body = await request.json();   // body = { name, price }
+    const body = await request.json(); // body = { name, price }
 
     // ✅ Update product (partial or full)
     const updatedProduct = await Product.findByIdAndUpdate(
       id,
-      { $set: body },  // $set ensures only fields sent are updated
-      { new: true }    // return updated document
+      { $set: body }, // $set ensures only fields sent are updated
+      { new: true }, // return updated document
     );
 
     if (!updatedProduct) {
-      return NextResponse.json(
-        { error: "Product not found" },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: "Product not found" }, { status: 404 });
     }
 
     return NextResponse.json({
@@ -76,11 +82,9 @@ export async function PATCH(
       updatedProduct,
     });
   } catch (error) {
-    console.error(error);
     return NextResponse.json(
       { error: "Update failed", details: String(error) },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
-
