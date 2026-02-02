@@ -1,14 +1,13 @@
 export const getAllProducts = async (search = "") => {
-  try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/products?search=${search}`,
-      { cache: "force-cache" }
-    );
+  const isSearch = search.length > 0;
 
-    const { products } = await res.json();
-    return products;
-  } catch (error) {
-    console.log(error);
-    return [];
-  }
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/products?search=${search}`,
+    {
+      cache: isSearch ? "no-store" : "force-cache",
+    }
+  );
+
+  const { products } = await res.json();
+  return products;
 };
