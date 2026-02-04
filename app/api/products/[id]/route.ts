@@ -6,26 +6,23 @@ export async function GET(
   request: NextRequest,
   context: { params: Promise<{ id: string }> },
 ) {
+  try {
+    await connectDB();
+    const { id } = await context.params;
 
-  try{
- await connectDB();
-  const { id } = await context.params;
+    const singleProduct = await Product.findById(id);
 
-  const singleProduct = await Product.findById(id);
-
-  return NextResponse.json({
-    message: "ID received successfully",
-    status: 200,
-    singleProduct,
-  });
-  }
-  catch(error){
-  return NextResponse.json(
+    return NextResponse.json({
+      message: "ID received successfully",
+      status: 200,
+      singleProduct,
+    });
+  } catch (error) {
+    return NextResponse.json(
       { error: "Failed to fetch product", details: String(error) },
       { status: 500 },
-  );
+    );
   }
- 
 }
 
 export async function DELETE(

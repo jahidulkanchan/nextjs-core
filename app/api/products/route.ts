@@ -3,9 +3,8 @@ import { NextRequest, NextResponse } from "next/server";
 import Product, { IProduct } from "./models/Product";
 
 export async function POST(request: NextRequest) {
-  await connectDB();
-
   try {
+    await connectDB();
     const body = await request.json();
 
     // Validate incoming data
@@ -37,12 +36,11 @@ export async function POST(request: NextRequest) {
 }
 
 export async function GET(req: Request) {
-  await connectDB();
-
   const { searchParams } = new URL(req.url);
   const search = searchParams.get("search") || "";
 
   try {
+    await connectDB();
     const products = await Product.find({
       name: { $regex: search, $options: "i" },
     }).sort({ _id: -1 });
@@ -54,8 +52,7 @@ export async function GET(req: Request) {
   } catch (error) {
     return NextResponse.json(
       { error: "Failed to fetch products" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
-
