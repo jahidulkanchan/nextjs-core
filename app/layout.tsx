@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Poppins, Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "./components/Navbar";
+import AuthProvider from "./providers/SessionProvider";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -33,8 +34,10 @@ export default function RootLayout({
         cz-shortcut-listen="true"
         className={`${poppins.variable} ${inter.variable} antialiased`}
       >
+        <AuthProvider>
         <Navbar />
         <div>{children}</div>
+        </AuthProvider>
       </body>
     </html>
   );
