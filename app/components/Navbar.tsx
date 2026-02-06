@@ -7,7 +7,6 @@ import Authentication from "./Authentication";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-
   const toggleMenu = () => setIsOpen(!isOpen);
 
   const navLinks = [
@@ -36,7 +35,9 @@ const Navbar = () => {
               </li>
             ))}
           </ul>
-          <div className="auth-handle">
+
+          {/* Auth only on Desktop */}
+          <div className="hidden md:block">
             <Authentication />
           </div>
 
@@ -47,14 +48,11 @@ const Navbar = () => {
               className="z-[60] text-black focus:outline-none"
               aria-label="Toggle menu"
             >
-              {/* Keep the icon button functional */}
               {isOpen ? <HiX size={24} /> : <HiMenuAlt3 size={24} />}
             </button>
           </div>
         </div>
       </nav>
-
-      {/* --- SIDEBAR MOBILE VIEW --- */}
 
       {/* Background Overlay */}
       <div
@@ -89,7 +87,9 @@ const Navbar = () => {
               </li>
             ))}
           </ul>
-          <div className="auth-handle">
+
+          {/* Auth only inside Sidebar for Mobile */}
+          <div className="mt-8 md:hidden">
             <Authentication />
           </div>
         </div>
