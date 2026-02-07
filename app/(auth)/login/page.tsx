@@ -2,7 +2,7 @@
 
 import { signIn } from "next-auth/react";
 import { useState } from "react";
-import { FcGoogle } from "react-icons/fc";
+// import { FcGoogle } from "react-icons/fc";
 
 export default function LoginPage() {
   const [username, setUsername] = useState("");
@@ -92,14 +92,21 @@ export default function LoginPage() {
           <div className="flex-1 h-px bg-gray-200" />
         </div>
 
+        <p className="text-sm text-gray-500 text-center mt-4">
+          You have not an account?{" "}
+          <a href="/register" className="text-black font-medium hover:underline">
+            Register
+          </a>
+        </p>
+
          {/* Google login */}
-        <button
+        {/* <button
           onClick={() => signIn("google", { callbackUrl: "/" })}
           className="mt-6 w-full flex items-center justify-center gap-2 border border-gray-300 rounded-md py-2 text-sm font-medium text-black hover:bg-gray-50 transition"
         >
           <FcGoogle size={20} />
           Continue with Google
-        </button>
+        </button> */}
       </div>
     </div>
   );

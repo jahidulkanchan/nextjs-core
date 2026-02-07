@@ -1,3 +1,6 @@
+import connectDB from "@/app/lib/db";
+import User from "@/app/models/User";
+import bcrypt from "bcryptjs";
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
@@ -5,37 +8,28 @@ import GoogleProvider from "next-auth/providers/google";
 export const authOptions = {
   secret: process.env.NEXTAUTH_SECRET,
   providers: [
-    CredentialsProvider({
+     CredentialsProvider({
       name: "Credentials",
-
       credentials: {
         username: { label: "Username", type: "text" },
         password: { label: "Password", type: "password" },
       },
-
       async authorize(credentials) {
-        // TEST user
-        const testUser = {
-          id: "1",
-          name: "Test User",
-          username: "admin",
-          password: "1234",
-        };
+        if (!credentials?.username || !credentials?.password) return null;
 
-        // username check
-        if (
-          credentials?.username === testUser.username &&
-          credentials?.password === testUser.password
-        ) {
-          // login success
-          return {
-            id: testUser.id,
-            name: testUser.name,
-          };
-        }
+        // MongoDB connect
+        await connectDB();
 
-        // login fail
-        return null;
+        // find user in database
+        const user = await User.findOne({ username: credentials.username });
+        if (!user) return null;
+
+        // compare hashed password
+        const isValid = await bcrypt.compare(credentials.password, user.password);
+        if (!isValid) return null;
+
+        // login success
+        return { id: user._id.toString(), username: user.username };
       },
     }),
     GoogleProvider({
