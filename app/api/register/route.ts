@@ -5,18 +5,24 @@ import User from "@/app/models/User";
 
 export async function POST(req: NextRequest) {
   try {
-    const { username, password } = await req.json();
+    const { name, email, password } = await req.json();
 
-    if (!username || !password) {
-      return NextResponse.json({ error: "সব ফিল্ড পূরণ করুন" }, { status: 400 });
+    if (!name || !email || !password) {
+      return NextResponse.json(
+        { error: "সব ফিল্ড পূরণ করুন" },
+        { status: 400 }
+      );
     }
 
     await connectDB();
 
-    // Check if username already exists
-    const existingUser = await User.findOne({ username });
+    // Check if email already exists
+    const existingUser = await User.findOne({ email });
     if (existingUser) {
-      return NextResponse.json({ error: "Username আগে থেকেই আছে" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Email আগে থেকেই আছে" },
+        { status: 400 }
+      );
     }
 
     // Hash password
@@ -24,13 +30,15 @@ export async function POST(req: NextRequest) {
 
     // Create new user
     const newUser = await User.create({
-      username,
+      name,
+      email,
       password: hashedPassword,
+      provider: "credentials",
     });
 
     return NextResponse.json({
       message: "User registered successfully",
-      user: { id: newUser._id, username: newUser.username },
+      user: { id: newUser._id, name: newUser.name, email: newUser.email },
     });
   } catch (error) {
     console.error(error);

@@ -5,7 +5,8 @@ import { useRouter } from "next/navigation";
 
 export default function Page() {
   const router = useRouter();
-  const [username, setUsername] = useState("");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -24,7 +25,8 @@ export default function Page() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          username: username.trim(),
+          name: name.trim(),
+          email: email.trim(),
           password: password.trim(),
         }),
       });
@@ -35,7 +37,7 @@ export default function Page() {
         setError(data.error || "Something went wrong");
       } else {
         setSuccess(true);
-        // Optionally redirect to login page after registration
+        // Redirect to login page after successful registration
         setTimeout(() => router.push("/login"), 1500);
       }
     } catch (err) {
@@ -55,20 +57,37 @@ export default function Page() {
         <p className="mt-2 text-center text-sm text-gray-500">Sign up 👋</p>
 
         <form onSubmit={handleRegister} className="mt-6 space-y-4">
+          {/* Name Field */}
           <div>
             <label className="mb-1 block text-sm font-medium text-black">
-              Username
+              Name
             </label>
             <input
               type="text"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              value={name}
+              onChange={(e) => setName(e.target.value)}
               className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-black focus:ring-2 focus:ring-black focus:outline-none"
-              placeholder="admin"
+              placeholder="John Doe"
               required
             />
           </div>
 
+          {/* Email Field */}
+          <div>
+            <label className="mb-1 block text-sm font-medium text-black">
+              Email
+            </label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-black focus:ring-2 focus:ring-black focus:outline-none"
+              placeholder="you@example.com"
+              required
+            />
+          </div>
+
+          {/* Password Field */}
           <div>
             <label className="mb-1 block text-sm font-medium text-black">
               Password

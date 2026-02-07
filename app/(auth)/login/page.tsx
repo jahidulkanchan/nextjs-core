@@ -2,10 +2,10 @@
 
 import { signIn } from "next-auth/react";
 import { useState } from "react";
-// import { FcGoogle } from "react-icons/fc";
+import { FcGoogle } from "react-icons/fc";
 
 export default function LoginPage() {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -18,7 +18,7 @@ export default function LoginPage() {
     setError(null);
 
     const res = await signIn("credentials", {
-      username,
+      email, // ✅ updated
       password,
       redirect: false,
     });
@@ -26,9 +26,9 @@ export default function LoginPage() {
     setLoading(false);
 
     if (res?.error) {
-      setError("Invalid username or password");
+      setError("Invalid email or password");
     } else {
-      window.location.href = "/";
+      window.location.href = "/"; // redirect after login
     }
   };
 
@@ -44,21 +44,23 @@ export default function LoginPage() {
         </p>
 
         {/* Credentials form */}
-        <form onSubmit={handleCredentialsLogin} className="space-y-4">
+        <form onSubmit={handleCredentialsLogin} className="space-y-4 mt-6">
+          {/* Email Field */}
           <div>
             <label className="block text-sm font-medium text-black mb-1">
-              Username
+              Email
             </label>
             <input
-              type="text"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-black focus:outline-none focus:ring-2 focus:ring-black"
-              placeholder="admin"
+              placeholder="you@example.com"
               required
             />
           </div>
 
+          {/* Password Field */}
           <div>
             <label className="block text-sm font-medium text-black mb-1">
               Password
@@ -73,9 +75,7 @@ export default function LoginPage() {
             />
           </div>
 
-          {error && (
-            <p className="text-sm text-red-500">{error}</p>
-          )}
+          {error && <p className="text-sm text-red-500">{error}</p>}
 
           <button
             type="submit"
@@ -85,28 +85,30 @@ export default function LoginPage() {
             {loading ? "Signing in..." : "Sign in"}
           </button>
         </form>
-         {/* Divider */}
+
+        {/* Divider */}
         <div className="flex items-center my-6">
           <div className="flex-1 h-px bg-gray-200" />
           <span className="px-3 text-xs text-gray-400">OR</span>
           <div className="flex-1 h-px bg-gray-200" />
         </div>
 
+        {/* Register link */}
         <p className="text-sm text-gray-500 text-center mt-4">
-          You have not an account?{" "}
+          You don&apos;t have an account?{" "}
           <a href="/register" className="text-black font-medium hover:underline">
             Register
           </a>
         </p>
 
-         {/* Google login */}
-        {/* <button
+        {/* Google login */}
+        <button
           onClick={() => signIn("google", { callbackUrl: "/" })}
           className="mt-6 w-full flex items-center justify-center gap-2 border border-gray-300 rounded-md py-2 text-sm font-medium text-black hover:bg-gray-50 transition"
         >
           <FcGoogle size={20} />
           Continue with Google
-        </button> */}
+        </button>
       </div>
     </div>
   );
